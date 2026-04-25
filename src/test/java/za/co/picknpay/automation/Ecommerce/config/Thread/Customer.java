@@ -2,6 +2,7 @@ package za.co.picknpay.automation.Ecommerce.config.Thread;
 
 import lombok.*;
 
+import javax.mail.Address;
 import java.time.LocalDateTime;
 @Builder
 @ToString
@@ -10,6 +11,10 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 public class Customer {
+    private String name;
+    private String lastName;
+    private String password;
+
     private String email;
     private String originalEmail;
 

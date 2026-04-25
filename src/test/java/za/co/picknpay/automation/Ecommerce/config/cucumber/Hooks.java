@@ -9,6 +9,7 @@ import io.cucumber.java.*;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import za.co.picknpay.automation.Ecommerce.config.Thread.Customer;
@@ -43,7 +44,8 @@ public class Hooks implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
 
-
+  @Value("${application.url}")
+  private String url;
 
 
     /**
@@ -52,6 +54,7 @@ public class Hooks implements ApplicationContextAware {
      */
     @Before
     public void beforeScenario(Scenario scenario) {
+        page.navigate(url);
         long startTime = System.currentTimeMillis();
         System.out.println("--- START: @Before hook for scenario: " + scenario.getName() + " ---");
 

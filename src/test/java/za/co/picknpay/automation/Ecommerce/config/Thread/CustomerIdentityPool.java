@@ -111,7 +111,11 @@ public class CustomerIdentityPool {
                 .email(pooledCustomer.getEmail()).
                 originalEmail(pooledCustomer.getOriginalEmail())
                 .emailSecretKey(pooledCustomer.getEmailSecretKey())
-                .isRegistered(pooledCustomer.isRegistered()).build();
+                .isRegistered(pooledCustomer.isRegistered())
+                .name(pooledCustomer.getName())
+                .lastName(pooledCustomer.getLastName())
+                .password(pooledCustomer.getPassword())
+                .build();
 
 
     }
