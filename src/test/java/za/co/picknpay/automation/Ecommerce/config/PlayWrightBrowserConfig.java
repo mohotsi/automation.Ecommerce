@@ -5,6 +5,7 @@ package za.co.picknpay.automation.Ecommerce.config;
 import com.microsoft.playwright.*;
 import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.*;
 import za.co.picknpay.automation.Ecommerce.config.Thread.Customer;
@@ -34,7 +35,7 @@ public class PlayWrightBrowserConfig {
      * Uses ScenarioScope to ensure each test starts with a fresh browser instance.
      */
     @ConditionalOnProperty(name = "browser", havingValue = "edge")
-    @Bean("customerPage")
+    @Bean
     @ScenarioScope
     @Primary
     @Lazy
@@ -61,7 +62,7 @@ public class PlayWrightBrowserConfig {
      * Uses Chromium to mimic an Android device running Chrome/Safari.
      */
     @ConditionalOnProperty(name = "browser", havingValue = "safari")
-    @Bean("customerPage")
+
     @ScenarioScope
     @Primary
     @Lazy
@@ -86,7 +87,7 @@ public class PlayWrightBrowserConfig {
      * Configures the viewport and User Agent to match iOS specifications.
      */
     @ConditionalOnProperty(name = "browser", havingValue = "iphone14Pro")
-    @Bean("customerPage")
+    @Bean
     @Primary
     @Lazy
     @ScenarioScope
@@ -111,8 +112,8 @@ public class PlayWrightBrowserConfig {
      * Google Chrome Configuration (Primary Desktop Browser).
      * Includes extensive timeout settings and security bypasses for stable automation.
      */
-    @ConditionalOnProperty(name = "browser", havingValue = "chrome")
-    @Bean("customerPage")
+    @ConditionalOnMissingBean
+    @Bean
     @ScenarioScope
     @Primary
     @Lazy
@@ -149,7 +150,7 @@ public class PlayWrightBrowserConfig {
      */
     private Path getPath() throws IOException {
         // Constructing path based on customer email: e.g., user@shoprite.co.zaBrowserCookies.json
-        Path path = Paths.get("src/test/java/za/co/shoprite/ecommerce/automation/playwright/config/"
+        Path path = Paths.get("src/test/java/za/co/picknpay/automation/Ecommerce/config/cookies"
                 + customer + "BrowserCookies.json");
 
         // Ensures the file exists so Playwright doesn't throw an error when attempting to read/write it

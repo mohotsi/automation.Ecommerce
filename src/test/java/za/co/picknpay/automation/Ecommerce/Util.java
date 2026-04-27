@@ -75,7 +75,7 @@ public class Util {
         val endTime = (int) Duration.between(LocalDateTime.now(),localDateTime).getSeconds();
         val results=endTime>seconds?seconds-endTime:1;
         System.out.println("<End Time> = " + endTime);
-        return eventually(action,results);
+        return eventually(action, (long) results);
     }
 
 
@@ -84,7 +84,7 @@ public class Util {
 
     public static boolean eventually(BooleanSupplier action) {
         val thisPage = new Util();
-        return thisPage.eventually(action, 15);
+        return thisPage.eventually(action, 15L);
     }
     private static boolean eventually(BooleanSupplier action, LocalDateTime localDateTime) {
         System.out.println("<Starting Date Time> = "+localDateTime);

@@ -15,10 +15,12 @@ public class LoginPage {
     private Page page;
 
     public void newUserSignUp(){
+        page.getByText("Signup / Login").first().click();
         page.locator("//input[@placeholder=\"Email Address\"]").last()
                 .fill(customer.getName());
         page.locator("//input[@placeholder=\"Email Address\"]").last()
                 .fill(customer.getEmail());
+        page.getByText("Signup").last().click();
 
 
     }

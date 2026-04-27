@@ -1,4 +1,4 @@
-package za.co.picknpay.automation.Ecommerce.config.cucumber;
+package za.co.picknpay.automation.Ecommerce.config;
 
 
 

@@ -6,7 +6,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import za.co.picknpay.automation.Ecommerce.config.cucumber.SpecificErrorRetryAnalyzer;
+import za.co.picknpay.automation.Ecommerce.config.SpecificErrorRetryAnalyzer;
 
 
 /**
@@ -19,6 +19,8 @@ import za.co.picknpay.automation.Ecommerce.config.cucumber.SpecificErrorRetryAna
 
         // Filter: Only execute scenarios that match these tags.
         tags = "@Regression",
+        glue = {"za.co.picknpay.automation.Ecommerce.definition",
+                "za.co.picknpay.automation.Ecommerce.config"},
 
         // Glue links the Gherkin steps to the Java code (Definitions) and the Spring/Playwright setup (Config).
 

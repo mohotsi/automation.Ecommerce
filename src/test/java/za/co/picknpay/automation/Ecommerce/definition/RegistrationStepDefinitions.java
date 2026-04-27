@@ -1,9 +1,13 @@
 package za.co.picknpay.automation.Ecommerce.definition;
 
 
+import com.microsoft.playwright.Page;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.PendingException;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import za.co.picknpay.automation.Ecommerce.Page.AccountDetailsPage;
 import za.co.picknpay.automation.Ecommerce.Page.LoginPage;
 import za.co.picknpay.automation.Ecommerce.config.Thread.Customer;
@@ -20,11 +24,17 @@ public class RegistrationStepDefinitions {
 
     @Autowired
     Customer customer;
+    @Autowired
+    Page page;
+
+    @Value("${application.url}")
+    private String url;
 
     @Given("a new customer is successfully registered on the GUI channel with the following details:")
     public void registerNewCustomer(DataTable dataTable) {
         // Convert the 2-column table into a Map
         Map<String, String> data = dataTable.asMap(String.class, String.class);
+        page.navigate(url+"/login");
         loginPage.newUserSignUp();
 
         // Fill Account Information (Date of Birth only)
@@ -49,4 +59,6 @@ public class RegistrationStepDefinitions {
 
         accountDetailsPage.clickCreate();
     }
+
+
 }

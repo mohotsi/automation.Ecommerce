@@ -2,7 +2,7 @@ package za.co.picknpay.automation.Ecommerce.config.Thread;
 
 import lombok.*;
 
-import javax.mail.Address;
+
 import java.time.LocalDateTime;
 @Builder
 @ToString

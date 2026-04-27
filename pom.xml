@@ -21,28 +21,17 @@
         <playwright.version>1.42.0</playwright.version>
         <cucumber.version>7.15.0</cucumber.version>
         <ashot.version>1.5.4</ashot.version>
-        <lombok.version>1.18.16</lombok.version>
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.eclipse.angus</groupId>
-            <artifactId>jakarta.mail</artifactId>
-            <version>2.0.3</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-
             <groupId>org.springframework.boot</groupId>
-
             <artifactId>spring-boot-starter-mail</artifactId>
-
-            <version>2.5.6</version>
-
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -55,11 +44,15 @@
             <artifactId>playwright</artifactId>
             <version>${playwright.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version> <!-- Or latest 1.x version -->
         </dependency>
 
         <dependency>
@@ -67,7 +60,6 @@
             <artifactId>cucumber-spring</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
@@ -80,12 +72,17 @@
             <version>7.9.0</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.3</version>
         </dependency>
         <dependency>
             <groupId>net.sf.cssbox</groupId>
@@ -118,15 +115,10 @@
             <version>1.17.2</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>ru.yandex.qatools.ashot</groupId>
             <artifactId>ashot</artifactId>
             <version>${ashot.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -137,32 +129,36 @@
         <resources>
             <resource>
                 <directory>src/test/resources</directory>
-                <filtering>true</filtering> </resource>
+                <filtering>true</filtering>
+            </resource>
         </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-surefire-plugin</artifactId>-->
-            <!--                <version>2.22.2</version>-->
-            <!--                <configuration>-->
-            <!--                    <properties>-->
-            <!--                        <property>-->
-            <!--                            <name>dataproviderthreadcount</name>-->
-            <!--                            <value>2</value>-->
-            <!--                        </property>-->
 
-
-
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>3.2.5</version>
                 <configuration>
                     <properties>
                         <property>
@@ -173,38 +169,13 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${project.build.outputDirectory}/regression.xml</suiteXmlFile>
                     </suiteXmlFiles>
-
                 </configuration>
-            </plugin>
-
-
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <annotationProcessorPaths>
-
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.cucumber</groupId>
-                <artifactId>cucumber-plugin</artifactId>
-                <version>7.3.4</version>
             </plugin>
 
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>3.0.0</version>
+                <version>5.7.0</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -212,7 +183,6 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-
                     </execution>
                 </executions>
             </plugin>

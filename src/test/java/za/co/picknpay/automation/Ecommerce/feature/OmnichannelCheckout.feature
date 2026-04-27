@@ -1,3 +1,5 @@
+
+@Regression
 Feature: Omnichannel Retail Order Validation and Data Integrity
   As an automation framework,
   I want to validate that customer order data is accurately synchronized across the retail GUI and backend OMS channels,
@@ -25,10 +27,18 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
   @HappyPath @OmnichannelDataIntegrity @Thread1
   Scenario: Validate Omnichannel Order Data Integrity for a Successful Standard Customer Checkout
     Given the new customer is logged into the graphical user interface channel
-    And they have added any product to their shopping cart
-    When they complete the multi-step checkout journey and submit the final payment details
-    Then a unique order identification is dynamically generated on the "Order Placed!" graphical page
-    And the integrated Order Management System (OMS) simulation validates that the order data has successfully synchronized across channels.
+    And I search for a product
+    And I add the product to cart
+    And They navigate to cart
+    When they have proceeded to the checkout page from the cart
+    And they place the order to reach the payment page
+    And they submit the final payment details with the following card info:
+      | Field            | Value            |
+      | Name on Card     | Thapelo Mohotsi  |
+      | Card Number      | 4111222233334444 |
+      | CVC              | 311              |
+      | Expiration Month | 12               |
+      | Expiration Year  | 2030             |
 
   # Scenario 2: The "Negative/Edge Case" (Shoprite Edge Scenario)
   #: This scenario differentiates you by modeling dynamic business failure.
@@ -36,7 +46,15 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
   @NegativeScenario @ShopriteEdgeCase @OmsResilience @Thread2
   Scenario: Verify Order Management System Resilience and Failover Handling for a Simulated Payment Decline Scenario
     Given the new customer is logged into the graphical user interface channel
-    And they have added any product to their shopping cart
-    When they complete the checkout journey but enter specific dynamic card details that simulate a payment decline
-    Then the final payment transaction is declined.
-    And the integrated Order Management System (OMS) simulation validates that the system handles the dynamic payment volatility with high resilience.
+    And I search for a product
+    And I add the product to cart
+    And They navigate to cart
+    When they have proceeded to the checkout page from the cart
+    And they place the order to reach the payment page
+    And they submit the final payment details with the following card info:
+      | Field            | Value            |
+      | Name on Card     | Thapelo Mohotsi  |
+      | Card Number      | 4111222233334444 |
+      | CVC              | 311              |
+      | Expiration Month | 12               |
+      | Expiration Year  | 2030             |

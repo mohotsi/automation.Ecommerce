@@ -1,4 +1,4 @@
-package za.co.picknpay.automation.Ecommerce.config.cucumber;
+package za.co.picknpay.automation.Ecommerce.config;
 
 
 
@@ -8,7 +8,6 @@ import com.microsoft.playwright.Tracing;
 import io.cucumber.java.*;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -17,7 +16,6 @@ import za.co.picknpay.automation.Ecommerce.config.Thread.CustomerIdentityPool;
 
 
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 
 import static za.co.picknpay.automation.Ecommerce.Util.Try;
 
