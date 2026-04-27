@@ -5,6 +5,7 @@ package za.co.picknpay.automation.Ecommerce.config;
 import com.microsoft.playwright.*;
 import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.*;
@@ -28,6 +29,9 @@ public class PlayWrightBrowserConfig {
 
     @Autowired
     Customer customer; // Injected to retrieve user-specific data (like email) for cookie path generation
+
+    @Value("${cookies.folder.dir}")
+    String COOKIES_DIR;
 
     /**
      * Microsoft Edge Configuration.
@@ -134,8 +138,8 @@ public class PlayWrightBrowserConfig {
         Page page = context.newPage();
 
         // Standardizing timeouts to prevent flaky tests on slow networks
-        page.setDefaultTimeout(60000); // Max time for any action (click, fill, etc.)
-        page.setDefaultNavigationTimeout(60000); // Max time for page loads
+        page.setDefaultTimeout(60000*2); // Max time for any action (click, fill, etc.)
+        page.setDefaultNavigationTimeout(60000*2); // Max time for page loads
 
         page.context().grantPermissions(List.of("geolocation"));
         page.setViewportSize(1920, 1300);
@@ -150,8 +154,8 @@ public class PlayWrightBrowserConfig {
      */
     private Path getPath() throws IOException {
         // Constructing path based on customer email: e.g., user@shoprite.co.zaBrowserCookies.json
-        Path path = Paths.get("src/test/java/za/co/picknpay/automation/Ecommerce/config/cookies"
-                + customer + "BrowserCookies.json");
+        Path path = Paths.get(COOKIES_DIR
+                + customer.getEmail() + "BrowserCookies.json");
 
         // Ensures the file exists so Playwright doesn't throw an error when attempting to read/write it
         if (Files.notExists(path)) {

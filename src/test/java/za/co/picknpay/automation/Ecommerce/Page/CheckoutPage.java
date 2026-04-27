@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import io.cucumber.spring.ScenarioScope;
 
+import static za.co.picknpay.automation.Ecommerce.Util.eventually;
+
 @Getter
 @Component
 @ScenarioScope
@@ -34,15 +36,16 @@ public class CheckoutPage {
         this.placeOrderButton = page.locator("text=Place Order");
 
         // Payment step (Using data-qa for stability)
-        this.nameOnCard = page.locator("data-qa=name-on-card");
-        this.cardNumber = page.locator("data-qa=card-number");
-        this.cvc = page.locator("data-qa=cvc");
-        this.expiryMonth = page.locator("data-qa=expiry-month");
-        this.expiryYear = page.locator("data-qa=expiry-year");
-        this.payAndConfirmButton = page.locator("data-qa=pay-button");
+        this.nameOnCard = page.locator("[name='name_on_card']");
+        this.cardNumber = page.locator("[name='card_number']");
+        this.cvc = page.locator("[name='cvc']");
+        this.expiryMonth = page.locator("[name='expiry_month']");
+        this.expiryYear = page.locator("[name='expiry_year']");
+        this.payAndConfirmButton = page.locator("//button[text()='Pay and Confirm Order']");
     }
 
     public void clickPlaceOrder() {
+         eventually(()-> placeOrderButton.isEnabled());
         placeOrderButton.click();
     }
 

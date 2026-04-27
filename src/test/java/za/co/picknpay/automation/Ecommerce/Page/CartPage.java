@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import io.cucumber.spring.ScenarioScope;
 
 @Getter
+@Component
 @ScenarioScope
 public class CartPage {
 

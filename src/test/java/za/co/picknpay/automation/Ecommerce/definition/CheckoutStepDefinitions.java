@@ -1,4 +1,5 @@
 package za.co.picknpay.automation.Ecommerce.definition;
+import com.microsoft.playwright.Page;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -12,6 +13,7 @@ import za.co.picknpay.automation.Ecommerce.Page.CartPage;
 import za.co.picknpay.automation.Ecommerce.Page.CheckoutPage;
 
 import static org.testng.Assert.assertTrue;
+import static za.co.picknpay.automation.Ecommerce.Util.Try;
 
 public class CheckoutStepDefinitions {
 
@@ -21,7 +23,8 @@ public class CheckoutStepDefinitions {
 
     @Autowired
     private CheckoutPage checkoutPage;
-
+    @Autowired
+    Page page;
     @And("they place the order to reach the payment page")
     public void placeOrderSummary() {
         checkoutPage.clickPlaceOrder();
@@ -80,6 +83,7 @@ public class CheckoutStepDefinitions {
     @And("the integrated Order Management System (OMS) simulation validates that the order data has successfully synchronized across channels.")
     public void omsSimulationValidatesDataSync() {
    }
+
 
 
 }

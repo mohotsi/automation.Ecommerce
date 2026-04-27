@@ -5,11 +5,12 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
   I want to validate that customer order data is accurately synchronized across the retail GUI and backend OMS channels,
   To ensure end-to-end business process data integrity and intelligent failure handling in an Agile environment.
 
-  # Prerequisite (Required by OfferZen): "Register a new customer".
+  # Prerequisite (Required by OfferZen): "Register  a new customer".
   #: Rather than making the primary checkout scenario long and brittle, I handled account creation in a Background.
   # This demonstrates advanced Gherkin design principles to manage test stability and scope within constraints.
   Background: A New Customer is Registered on the Retail Portal
 
+     Given Delete account if it exist
     Given a new customer is successfully registered on the GUI channel with the following details:
       | Field          | Value             |
       | Date of Birth  | 15-May-1985       |

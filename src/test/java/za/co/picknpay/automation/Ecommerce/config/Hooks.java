@@ -18,6 +18,7 @@ import za.co.picknpay.automation.Ecommerce.config.Thread.CustomerIdentityPool;
 import java.nio.file.Path;
 
 import static za.co.picknpay.automation.Ecommerce.Util.Try;
+import static za.co.picknpay.automation.Ecommerce.Util.eventually;
 
 
 /**
@@ -52,7 +53,10 @@ public class Hooks implements ApplicationContextAware {
      */
     @Before
     public void beforeScenario(Scenario scenario) {
+
         page.navigate(url);
+
+        //
         long startTime = System.currentTimeMillis();
         System.out.println("--- START: @Before hook for scenario: " + scenario.getName() + " ---");
 

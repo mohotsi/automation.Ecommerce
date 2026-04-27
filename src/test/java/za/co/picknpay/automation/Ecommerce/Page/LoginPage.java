@@ -3,9 +3,11 @@ package za.co.picknpay.automation.Ecommerce.Page;
 import com.microsoft.playwright.Page;
 import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import za.co.picknpay.automation.Ecommerce.config.Thread.Customer;
 
 @ScenarioScope
+@Component
 public class LoginPage {
 
     @Autowired
@@ -16,11 +18,11 @@ public class LoginPage {
 
     public void newUserSignUp(){
         page.getByText("Signup / Login").first().click();
-        page.locator("//input[@placeholder=\"Email Address\"]").last()
+        page.locator("//input[@placeholder=\"Name\"]").last()
                 .fill(customer.getName());
         page.locator("//input[@placeholder=\"Email Address\"]").last()
                 .fill(customer.getEmail());
-        page.getByText("Signup").last().click();
+        page.locator("//button[text()='Signup']").last().click();
 
 
     }

@@ -3,8 +3,11 @@ package za.co.picknpay.automation.Ecommerce.Page;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Locator;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import io.cucumber.spring.ScenarioScope;
+
+import static za.co.picknpay.automation.Ecommerce.Util.eventually;
 
 @Getter
 @Component
@@ -35,36 +38,38 @@ public class AccountDetailsPage {
 
     // --- Buttons ---
     private final Locator createAccountButton;
-
+     @Autowired
     public AccountDetailsPage(Page page) {
         this.page = page;
 
         // Section 1 Locators
         this.genderMale = page.locator("#id_gender1");
         this.genderFemale = page.locator("#id_gender2");
-        this.password = page.locator("data-qa=password");
-        this.days = page.locator("data-qa=days");
-        this.months = page.locator("data-qa=months");
-        this.years = page.locator("data-qa=years");
+        this.password = page.locator("#password");
+        this.days = page.locator("#days");
+        this.months = page.locator("#months");
+        this.years = page.locator("#years");
 
         // Section 2 Locators (Address)
-        this.firstName = page.locator("data-qa=first_name");
-        this.lastName = page.locator("data-qa=last_name");
-        this.company = page.locator("data-qa=company");
-        this.address1 = page.locator("data-qa=address");
-        this.address2 = page.locator("data-qa=address2");
-        this.country = page.locator("data-qa=country");
-        this.state = page.locator("data-qa=state");
-        this.city = page.locator("data-qa=city");
-        this.zipcode = page.locator("data-qa=zipcode");
-        this.mobileNumber = page.locator("data-qa=mobile_number");
+        this.firstName = page.locator("#first_name");
+         this.lastName = page.locator("#last_name");
+        this.company = page.locator("#company");
+        this.address1 = page.locator("#address1");
+        this.address2 = page.locator("#address2");
+        this.country = page.locator("#country");
+        this.state = page.locator("#state");
+        this.city = page.locator("#city");
+        this.zipcode = page.locator("#zipcode");
+        this.mobileNumber = page.locator("#mobile_number");
 
-        this.createAccountButton = page.locator("data-qa=create-account");
+        this.createAccountButton = page.locator("//button[text()='Create Account']");
+
     }
 
     // --- Methods divided by Section ---
 
     public void fillAccountInformation(String pass, String d, String m, String y) {
+         genderMale.waitFor();
         genderMale.click(); // Defaulting to Male for the test
         password.fill(pass);
         days.selectOption(d);
@@ -87,6 +92,7 @@ public class AccountDetailsPage {
     }
 
     public void clickCreate() {
+         eventually(createAccountButton::isEnabled);
         createAccountButton.click();
     }
 }

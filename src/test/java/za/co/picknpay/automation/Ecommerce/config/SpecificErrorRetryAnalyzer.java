@@ -25,7 +25,7 @@ public class SpecificErrorRetryAnalyzer implements IRetryAnalyzer {
      * We don't want to retry everything. For example, if a developer marked a step
      * as 'Pending', retrying it is a waste of time and resources.
      */
-    private static final String SPECIFIC_ERROR_MESSAGE = "TimeoutException";
+    private static final String SPECIFIC_ERROR_MESSAGE = "motswallewaka";
 
     /**
      * The core logic invoked by TestNG every time a scenario fails.

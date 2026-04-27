@@ -7,18 +7,22 @@ import com.microsoft.playwright.options.RequestOptions;
 import io.cucumber.core.internal.com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import za.co.picknpay.automation.Ecommerce.models.product.Product;
 import za.co.picknpay.automation.Ecommerce.models.product.SearchResponse;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 
 @ScenarioScope
+@Component
 public class SearchServiceAPI {
 
 
-       private static List<Product> products;
+       private static List<Product> products= new ArrayList<>();
 
 
 
