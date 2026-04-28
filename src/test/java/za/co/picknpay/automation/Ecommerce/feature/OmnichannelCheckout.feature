@@ -29,7 +29,7 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
   # It dynamically captures the Order ID from the AutomationExercise GUI and utilizes the integrated code-level Java mock verifier to ensure data parity.
   @HappyPath @OmnichannelDataIntegrity @Thread1
   Scenario: Validate Omnichannel Order Data Integrity for a Successful Standard Customer Checkout
-    Given the new customer is logged into the graphical user interface channel
+
     And I search for a product
     And I add the product to cart
     And They navigate to cart
@@ -43,6 +43,8 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
       | Expiration Month | 12               |
       | Expiration Year  | 2030             |
     Then the order should be successfully placed and confirmed
+    Then  the warehouse team processes the order through all lifecycle stages
+  Then the customer should receive shipping and delivery notifications
   # Scenario 2: The "Negative/Edge Case" (Shoprite Edge Scenario)
   #: This scenario differentiates you by modeling dynamic business failure.
   # Based on Shoprite background, we are automating a checkout with specific payment details that should cause a simulated Payment Decline, proving the OMS handles failure intelligently rather than assuming pristine data states.

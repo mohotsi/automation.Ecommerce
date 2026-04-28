@@ -6,12 +6,18 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.And;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import za.co.picknpay.automation.Ecommerce.Notifications.model.Email;
 import za.co.picknpay.automation.Ecommerce.Page.CartPage;
 import za.co.picknpay.automation.Ecommerce.Page.CheckoutPage;
+import za.co.picknpay.automation.Ecommerce.config.Thread.Customer;
+import za.co.picknpay.automation.Ecommerce.service.OMSTaskAutomation;
 import za.co.picknpay.automation.Ecommerce.service.OrderAutomationService;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
@@ -30,6 +36,13 @@ public class CheckoutStepDefinitions {
     Page page;
     @Autowired
     OrderAutomationService orderAutomationService;
+    @Autowired
+    private OMSTaskAutomation taskAutomation;
+    @Autowired
+    Email email;
+
+    @Autowired
+    Customer customer;
     @And("they place the order to reach the payment page")
     public void placeOrderSummary() {
         checkoutPage.clickPlaceOrder();
@@ -96,15 +109,22 @@ public class CheckoutStepDefinitions {
 
         assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Continue")))
                 .isVisible();
+        customer.setActionTimeStamp(LocalDateTime.now());
 
         // 4. Traceability Logging
         System.out.println("ASSERTION PASSED: Order confirmation verified via UI text and Action Roles.");
         orderAutomationService.sendOrderToOMS();
     }
-    @Given("the new customer is logged into the graphical user interface channel")
-    public void loggedIntoGui() {
-        // Implementation uses LoginPage and handles registration if necessary
+
+    @When("the warehouse team processes the order through all lifecycle stages")
+    public void theWarehouseTeamProcessesTheOrderThroughAllLifecycleStages() {
+        // Authenticate once
+        taskAutomation.login("thapelo_oms", "OMS_Secure_2026");
+
+        // This method contains the Stream logic we built previously
+        taskAutomation.verifyOrderLifecycle();
     }
+
 
 
     @And("they have proceeded to the checkout page from the cart")
@@ -118,28 +138,18 @@ public class CheckoutStepDefinitions {
                 "Navigation to Checkout page failed! Current URL: " + cartPage.getPage().url());
     }
 
-    @And("they have added any product to their shopping cart")
-    public void addedProductToCart() {
-        // Implementation uses ProductsPage to add an item
-    }
 
-    @When("they complete the multi-step checkout journey and submit the final payment details")
-    public void completeCheckoutAndSubmitPayment() {
-        // Navigates through Cart, Checkout (Address/Order Summary) to Payment
-        // Implementation inputs dummy data into input fields like "Name on Card" on PaymentPage
-        // Implementation clicks "Pay and Confirm Order" button
-    }
 
-    @Then("a unique order identification is dynamically generated on the \"Order Placed!\" graphical page")
-    public void uniqueOrderIdGenerated() {
-        // Uses OrderConfirmedPage to capture dynamically generated Order ID
-        uiOrderId = "CapturedTextFromUI"; // Placeholder
-        assertTrue(uiOrderId != null && !uiOrderId.isEmpty());
-    }
 
-    @And("the integrated Order Management System (OMS) simulation validates that the order data has successfully synchronized across channels.")
-    public void omsSimulationValidatesDataSync() {
-   }
+
+    @Then("the customer should receive shipping and delivery notifications")
+    public void theCustomerShouldReceiveNotifications() {
+        // This is where you'd call a mail utility or check an email log table
+        // to verify that handleStatusNotifications(order) was triggered
+        val item =email.getEmailAfter(customer.getActionTimeStamp());
+        int it=0;
+
+    }
 
 
 

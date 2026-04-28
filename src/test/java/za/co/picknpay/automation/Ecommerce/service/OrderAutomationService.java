@@ -4,6 +4,7 @@ import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.options.RequestOptions;
 import io.cucumber.spring.ScenarioScope;
+import lombok.Getter;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 @Service
+@Getter
 @ScenarioScope
 public class OrderAutomationService {
 
@@ -36,22 +38,22 @@ public class OrderAutomationService {
     @Autowired
     AccountDetailsPage accountDetailsPage;
 
-
+   private String orderNumber;
     public String generateUUIDOrder() {
         // Example output: PNP-A1B2C3D4
         String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
         return "PNP-" + uuid;
     }
     public void sendOrderToOMS() {
-        val order=generateUUIDOrder();
+         orderNumber=generateUUIDOrder();
         Product product=searchServiceAPI.getALLProducts().stream().findFirst().orElse(null);
         // 1. Prepare the JSON Payload
         Map<String, Object> orderData = new HashMap<>();
-        orderData.put("orderNumber",order );
+        orderData.put("orderNumber",orderNumber );
         orderData.put("customerName", customer.getName());
         orderData.put("email", customer.getEmail());
         orderData.put("address", accountDetailsPage.getAddressString()); // Playwright automatically nests the Address object
-        orderData.put("invoicePdf", invoiceService.generateInvoice(order,accountDetailsPage.getAddressString(),
+        orderData.put("invoicePdf", invoiceService.generateInvoice(orderNumber,accountDetailsPage.getAddressString(),
                 Arrays.asList(product)));   // Sending empty byte array for now
 
         // 2. Execute the POST request
@@ -62,7 +64,7 @@ public class OrderAutomationService {
         if (response.status() == 200) {
             System.out.println("Success: " + response.text());
         } else {
-            System.err.println("Failed to send order. Status: " + response.status() + " | Body: " + response.text());
+            System.err.println("Failed to send orderNumber. Status: " + response.status() + " | Body: " + response.text());
             throw new RuntimeException("API Ingestion Failed");
         }
     }
