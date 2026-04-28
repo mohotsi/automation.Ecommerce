@@ -23,6 +23,8 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
       | Mobile         | 0712345678        |
 
   # Scenario 1: The "Happy Path" (Omnichannel Integration)
+
+  Then the order should be successfully placed and confirmed
   #: This scenario proves the entire successful data chain Lisa requested.
   # It dynamically captures the Order ID from the AutomationExercise GUI and utilizes the integrated code-level Java mock verifier to ensure data parity.
   @HappyPath @OmnichannelDataIntegrity @Thread1

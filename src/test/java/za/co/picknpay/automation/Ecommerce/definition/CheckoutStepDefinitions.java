@@ -1,5 +1,6 @@
 package za.co.picknpay.automation.Ecommerce.definition;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.AriaRole;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -12,6 +13,7 @@ import org.testng.Assert;
 import za.co.picknpay.automation.Ecommerce.Page.CartPage;
 import za.co.picknpay.automation.Ecommerce.Page.CheckoutPage;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.testng.Assert.assertTrue;
 import static za.co.picknpay.automation.Ecommerce.Util.Try;
 
@@ -43,6 +45,35 @@ public class CheckoutStepDefinitions {
         );
 
         checkoutPage.clickPayAndConfirm();
+    }
+
+
+    /**
+     * Step definition to verify the successful completion of an order.
+     * Instead of volatile CSS selectors, we use User-Facing locators (Text and Roles).
+     */
+    @Then("the order should be successfully placed and confirmed")
+    public void verifyOrderIsSuccessfullyPlaced() {
+        // 1. Assert the Success Header
+        // We look for the bold "ORDER PLACED!" text specifically.
+        assertThat(page.getByText("Order Placed!", new Page.GetByTextOptions().setExact(true)))
+                .isVisible();
+
+        // 2. Assert the Confirmation Message
+        // This confirms the specific success text seen on the UI.
+        assertThat(page.getByText("Congratulations! Your order has been confirmed!"))
+                .isVisible();
+
+        // 3. Assert functional elements by their Role and Name
+        // This ensures that the elements are not just text, but valid clickable links.
+        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Download Invoice")))
+                .isVisible();
+
+        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Continue")))
+                .isVisible();
+
+        // 4. Traceability Logging
+        System.out.println("ASSERTION PASSED: Order confirmation verified via UI text and Action Roles.");
     }
     @Given("the new customer is logged into the graphical user interface channel")
     public void loggedIntoGui() {

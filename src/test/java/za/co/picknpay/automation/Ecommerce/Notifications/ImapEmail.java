@@ -5,6 +5,11 @@ import com.google.gson.Gson;
 import io.cucumber.spring.ScenarioScope;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.mail.*;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.search.ComparisonTerm;
+import jakarta.mail.search.HeaderTerm;
+import jakarta.mail.search.ReceivedDateTerm;
 import lombok.val;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
@@ -17,11 +22,7 @@ import za.co.picknpay.automation.Ecommerce.Notifications.model.Email;
 import za.co.picknpay.automation.Ecommerce.Notifications.model.EmailMessage;
 import za.co.picknpay.automation.Ecommerce.config.Thread.Customer;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.search.ComparisonTerm;
-import javax.mail.search.HeaderTerm;
-import javax.mail.search.ReceivedDateTerm;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -45,10 +46,6 @@ public class ImapEmail implements Email {
     @Autowired
     Gson gson;
 
-    @Override
-    public String getHeader(jakarta.mail.Message message, String headerName) {
-        return "";
-    }
 
     public List<EmailMessage> getEmailAfter(LocalDateTime localDateTime) {
         try {
@@ -203,7 +200,7 @@ public class ImapEmail implements Email {
 
 
     }
-    private List<Message> getThreadMessages(Store store,String threadId) {
+    private List<Message> getThreadMessages(Store store, String threadId) {
         // Create properties for the IMAP connection
 
 

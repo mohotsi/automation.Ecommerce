@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import io.cucumber.spring.ScenarioScope;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import static za.co.picknpay.automation.Ecommerce.Util.eventually;
 
 @Getter
@@ -15,6 +17,7 @@ import static za.co.picknpay.automation.Ecommerce.Util.eventually;
 public class AccountDetailsPage {
 
     private final Page page;
+    private String addressString="";
 
     // --- Section 1: Account Information ---
     private final Locator genderMale;
@@ -76,6 +79,11 @@ public class AccountDetailsPage {
         months.selectOption(m);
         years.selectOption(y);
     }
+    public String generateOrderNumber() {
+        // Generates a random number between 100,000 and 999,999
+        long randomNum = ThreadLocalRandom.current().nextLong(100000L, 1000000L);
+        return "PNP-" + randomNum;
+    }
 
     public void fillAddressDetails(String fName, String lName, String comp, String addr1, String addr2,
                                    String countryName, String stateName, String cityName, String zip, String mobile) {
@@ -89,6 +97,8 @@ public class AccountDetailsPage {
         city.fill(cityName);
         zipcode.fill(zip);
         mobileNumber.fill(mobile);
+        addressString=fName+"\n"+lName+"\n"+comp+"\n"+addr1
+                +"\n"+addr2+"\n"+countryName+"\n"+stateName+"\n"+cityName+"\n"+"\n"+zip+"\n"+mobile;
     }
 
     public void clickCreate() {
