@@ -4,9 +4,11 @@ package za.co.picknpay.automation.Ecommerce.runner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import za.co.picknpay.automation.Ecommerce.config.SpecificErrorRetryAnalyzer;
+import za.co.picknpay.automation.Ecommerce.config.TestOnlyConfiguration;
 
 
 /**
@@ -34,6 +36,7 @@ import za.co.picknpay.automation.Ecommerce.config.SpecificErrorRetryAnalyzer;
                 "html:target/output/Regression.html"
         }
 )
+@SpringBootTest(classes = TestOnlyConfiguration.class)
 public class FullRegression extends AbstractTestNGCucumberTests {
 
     /**

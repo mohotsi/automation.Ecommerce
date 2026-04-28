@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import za.co.picknpay.automation.Ecommerce.Page.CartPage;
 import za.co.picknpay.automation.Ecommerce.Page.CheckoutPage;
+import za.co.picknpay.automation.Ecommerce.service.OrderAutomationService;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.testng.Assert.assertTrue;
@@ -27,6 +28,8 @@ public class CheckoutStepDefinitions {
     private CheckoutPage checkoutPage;
     @Autowired
     Page page;
+    @Autowired
+    OrderAutomationService orderAutomationService;
     @And("they place the order to reach the payment page")
     public void placeOrderSummary() {
         checkoutPage.clickPlaceOrder();
@@ -45,6 +48,28 @@ public class CheckoutStepDefinitions {
         );
 
         checkoutPage.clickPayAndConfirm();
+    }
+    @Then("the order should not be placed or confirmed")
+    public void verifyOrderIsNotPlaced() {
+        // 1. Assert the Success Header is NOT visible
+        // Ensures the "ORDER PLACED!" message did not appear.
+        assertThat(page.getByText("Order Placed!", new Page.GetByTextOptions().setExact(true)))
+                .isHidden();
+
+        // 2. Assert the Confirmation Message is NOT visible
+        assertThat(page.getByText("Congratulations! Your order has been confirmed!"))
+                .isHidden();
+
+        // 3. Assert functional elements are NOT present
+        // If the order failed, the Invoice download and Continue links shouldn't exist.
+        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Download Invoice")))
+                .isHidden();
+
+        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Continue")))
+                .isHidden();
+
+        // 4. Traceability Logging
+        System.out.println("ASSERTION PASSED: Confirmed that order success UI is not displayed.");
     }
 
 
@@ -74,6 +99,7 @@ public class CheckoutStepDefinitions {
 
         // 4. Traceability Logging
         System.out.println("ASSERTION PASSED: Order confirmation verified via UI text and Action Roles.");
+        orderAutomationService.sendOrderToOMS();
     }
     @Given("the new customer is logged into the graphical user interface channel")
     public void loggedIntoGui() {

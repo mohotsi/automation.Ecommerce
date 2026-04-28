@@ -24,7 +24,7 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
 
   # Scenario 1: The "Happy Path" (Omnichannel Integration)
 
-  Then the order should be successfully placed and confirmed
+
   #: This scenario proves the entire successful data chain Lisa requested.
   # It dynamically captures the Order ID from the AutomationExercise GUI and utilizes the integrated code-level Java mock verifier to ensure data parity.
   @HappyPath @OmnichannelDataIntegrity @Thread1
@@ -42,7 +42,7 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
       | CVC              | 311              |
       | Expiration Month | 12               |
       | Expiration Year  | 2030             |
-
+    Then the order should be successfully placed and confirmed
   # Scenario 2: The "Negative/Edge Case" (Shoprite Edge Scenario)
   #: This scenario differentiates you by modeling dynamic business failure.
   # Based on Shoprite background, we are automating a checkout with specific payment details that should cause a simulated Payment Decline, proving the OMS handles failure intelligently rather than assuming pristine data states.
@@ -55,9 +55,10 @@ Feature: Omnichannel Retail Order Validation and Data Integrity
     When they have proceeded to the checkout page from the cart
     And they place the order to reach the payment page
     And they submit the final payment details with the following card info:
-      | Field            | Value            |
+      | Field            | Invalid Test User            |
       | Name on Card     | Thapelo Mohotsi  |
-      | Card Number      | 4111222233334444 |
-      | CVC              | 311              |
-      | Expiration Month | 12               |
-      | Expiration Year  | 2030             |
+      | Card Number      | 0000 0000 0000 0000 |
+      | CVC              | 000              |
+      | Expiration Month | 01               |
+      | Expiration Year  | 2000             |
+  Then the order should not be placed or confirmed
