@@ -1,4 +1,4 @@
-Here is the complete, high-level README.md merged into a single, professional document. It is structured specifically to showcase your engineering maturity for the Pick n Pay / Cash & Carry role, focusing on CI/CD, parallel execution, and sophisticated state management.
+
 
 🛒 Enterprise E-commerce Automation Framework
 Order Management System (OMS) & Storefront Integration Suite
