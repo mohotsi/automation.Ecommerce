@@ -1,68 +1,76 @@
-[
-
-🛒 Enterprise E-commerce Automation Framework
-Order Management System (OMS) & Storefront Integration Suite
-📝 Overview
-This is a professional-grade automation ecosystem designed to validate the end-to-end retail value chain for Pick n Pay. The framework bridges the gap between the customer-facing storefront (Automation Exercise) and the internal Order Management System (OMS).
-
-It is engineered for Jenkins-first execution, emphasizing parallelization, thread-safe state management, and self-healing resilience.
-
-🏗 High-Performance Execution Architecture
-1. Advanced Parallelization (TestNG + Cucumber)
-The framework is built for maximum throughput. Driven by regression.xml, the suite leverages a multi-threaded data provider to execute scenarios in parallel.
-
-Thread Control: Configured via data-provider-thread-count="2", allowing for linear scaling in CI/CD environments.
-
-Isolated Contexts: Each thread maintains its own Playwright BrowserContext and APIRequestContext.
-
-2. Spring Boot @ScenarioScope Management
-To prevent data leakage between parallel threads, I have implemented Cucumber-Spring Scenario Scope:
-
-Isolation: Every Gherkin scenario receives its own fresh instance of automation beans.
-
-Thread Safety: This ensures that "Order A" in Thread 1 never collides with "Order B" in Thread 2, even when interacting with shared services.
-
-3. Resilience: SpecificErrorRetryAnalyzer
-In a distributed CI/CD environment, transient network "blips" are handled automatically.
-
-Self-Healing: The framework analyzes failures; if an error is identified as "retriable" (e.g., a timeout on a external UI element), it reruns the scenario automatically to ensure 100% build integrity in Jenkins.
-
-🧪 Testing Scope & Integration
-A. Customer Storefront (UI Automation)
-Page Object Model (POM): Decoupled architecture for high maintainability.
-
-Dynamic Search & Cart: Validates complex UI logic including guest-to-member transitions and price calculations.
-
-Regional Tagging: Specifically configured for the Vosloorus region using @Regression tags to target branch-specific business rules.
-
-B. Warehouse Operations (Backend API)
-JWT Security Handshake: Automatically authenticates via /api/oms/login to retrieve and inject Bearer tokens into secured headers.
-
-Functional Lifecycle Streams: Uses Java Streams to drive orders from PICKING → PACKING → SHIPPING → DELIVERED.
-
-Dual-Layer Verification: Asserts both the API response messages and the database integrity via the SearchServiceAPI.
-
-🚀 DevOps & CI/CD Instructions
-Jenkins Pipeline Execution
-To trigger the full regression suite in a headless environment, use the following Maven command:
-
-Bash
-mvn clean test -DsuiteXmlFile=regression.xml -Dheadless=true
-The Project Structure
-Plaintext
-src/
-├── main/                 # OMS Application (Spring Boot)
-│   └── java/.../security # JWT, BCrypt, and Filter logic
-└── test/                 # Automation Engineering
-    ├── java/.../runner   # FullRegression.java (Entry Point)
-    ├── java/.../service  # Thread-safe TaskAutomation & SearchAPI
-    └── resources/        # Gherkin .feature files (Vosloorus Region)
-📊 Automation Engineering Highlights
-ThreadLocal Sessions: Secure management of multi-user JWT tokens across parallel threads.
-
-State Persistence: Direct validation against the H2 In-Memory Database to verify persistence after API updates.
-
-Automated Notifications: Verification of the handleStatusNotifications logic (SMTP/Email triggers) during the Shipping/Delivery phases.
-
-QA Philosophy: "Automating the UI tests the surface; automating the lifecycle tests the business." This framework is designed to provide Pick n Pay with the confidence to deploy rapidly, knowing the core logic is protected by a resilient, high-speed quality gat
-](https://github.com/mohotsi/automation.Ecommerce/tree/AtomationProject)
+🛒 E-Commerce Virtual Workforce: Automation Framework Guide1. The Core Philosophy: The "Virtual Tester" ArmyIn a traditional manual testing environment, you might have five testers sitting at five desks, each logging into the website with a different customer account. This framework replaces those humans with Threads.The Thread (The Individual Tester): Each thread is an isolated worker. If we set the framework to 10 threads, we are effectively "hiring" 10 virtual testers to work simultaneously.The Scenario Scope (The Private Desk): In retail, we can't have two customers sharing one shopping cart. We use @ScenarioScope to ensure every virtual tester has their own private "desk" (browser, cookies, and cache) that others cannot see.The Identity Pool (The Loyalty Cards): We maintain a pool of customer data. When a virtual tester "clocks in," they grab a unique Customer profile so they don't interfere with another tester's session.2. Deep Dive: How the Code Works (Step-by-Step)Step 1: The Briefing (Spring Boot Configuration)Before any testing starts, the "Manager" (Spring Boot) looks at the environment settings. It decides if the testers should go to the D1 (Development) environment or the Production environment.Java// Snippet from PlayWrightBrowserConfig.java
+@Bean
+@ScenarioScope // Ensures every "tester" gets their own clean browser
+public BrowserContext browserContext(Browser browser) {
+    return browser.newContext(new Browser.NewContextOptions()
+            .setViewportSize(1920, 1080)
+            .setRecordVideoDir(Paths.get("target/videos/"))); 
+}
+Why this is huge: Unlike older frameworks, if one tester's browser crashes, it doesn't stop the others. They are completely independent.Step 2: The Handshake (Cucumber Hooks)Every time a new test starts, the CucumberHooks.java file runs. This is the setup phase where the virtual tester prepares their tools.Java// Logic from CucumberHooks.java
+@Before
+public void startVirtualTester(Scenario scenario) {
+    // 1. Tester picks up their Customer ID from the pool
+    Customer currentCustomer = customerIdentityPool.claimUnusedCustomer();
+    
+    // 2. The Tester opens their personal browser window
+    page.navigate(config.getBaseUrl());
+    
+    scenario.log("Virtual Tester assigned to Customer: " + currentCustomer.getEmail());
+}
+Step 3: Executing the Retail Journey (Page Objects)We don't tell the tester "Click button X." We tell them "Add the Galaxy S24 to the cart." The Page Object Model (POM) translates retail actions into code.Java// Example flow within a Page Object
+public void checkoutProduct() {
+    this.cartButton.click();
+    this.proceedToCheckout.click();
+    this.paymentMethod("CreditCard").select();
+    // The code waits for the 'Order Confirmed' message automatically
+}
+Step 4: The Debrief (Trace and Teardown)If a virtual tester fails to complete a purchase, they don't just stop; they leave behind a CCTV recording (Playwright Trace).Java@After
+public void clockOut(Scenario scenario) {
+    if (scenario.isFailed()) {
+        // Save a visual 'Trace' of exactly what went wrong
+        browserContext.tracing().stop(new Tracing.StopOptions()
+            .setPath(Paths.get("target/traces/" + scenario.getName() + ".zip")));
+    }
+    // Tester returns their Customer ID to the pool for the next person
+    customerIdentityPool.releaseCustomer(currentCustomer);
+}
+3. Local Setup for Team Members (Windows)To run these virtual testers on your own machine, follow these steps to prepare your "testing station."A. System Environment VariablesWindows needs to know where your "engines" (Java and Maven) are located.Search for "Environment Variables" in your Start Menu.Add a New System Variable:Name: JAVA_HOME | Value: C:\Program Files\Java\jdk-17Name: M2_HOME | Value: C:\Program Files\apache-maven-3.9.xEdit the Path variable and add these two lines at the end:%JAVA_HOME%\bin%M2_HOME%\binB. IntelliJ IDEA ConfigurationImport: File > Open > Select the pom.xml of this project.Plugin: Install the Cucumber for Java plugin.VM Options: When running a test, click "Edit Configurations" and add this to the VM Options to target a specific retail environment:-Dspring.profiles.active=D1 (or QA, PROD)4. Running at Scale (CI/CD Pipelines)Jenkins: The "Foreman"In Jenkins, we can schedule 50 virtual testers to run every night at 2:00 AM.Groovypipeline {
+    agent { label 'windows-node' }
+    stages {
+        stage('Initialize Workforce') {
+            steps {
+                // Installs dependencies and prepares the virtual testers
+                bat 'mvn clean install -DskipTests'
+            }
+        }
+        stage('Run E-Commerce Regression') {
+            steps {
+                // Runs 5 testers in parallel (-T 5)
+                bat 'mvn test -Dspring.profiles.active=D1 -DthreadCount=5'
+            }
+        }
+    }
+    post {
+        always {
+            // Uploads the CCTV 'Traces' and HTML reports
+            publishHTML(target: [reportDir: 'target/cucumber-reports', reportFiles: 'index.html', reportName: 'Retail Test Report'])
+        }
+    }
+}
+Azure DevOps: The "Cloud Coordinator"Azure allows us to spin up temporary "Cloud Machines" to run our testers.YAML# azure-pipelines.yml
+jobs:
+- job: Retail_Automation
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'test'
+      # Tells Azure to use Chrome and the QA environment
+      options: '-Dspring.profiles.active=QA -Dbrowser=chrome -Dcucumber.filter.tags="@SmokeTest"'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      testRunTitle: 'E-Commerce Weekly Regression'
+5. Troubleshooting for the Retail TeamIf you see this...It means...The FixNoAvailableCustomerExceptionAll our virtual loyalty cards are currently being used.Increase the size of the customerList in your config file.TimeoutError (Playwright)The website took too long to respond (The store is "lagging").Check the server logs for the environment (D1/QA).Step UndefinedThe human instructions don't match the code logic.Ensure the Gherkin text matches the @Given/@When in the Java code.
