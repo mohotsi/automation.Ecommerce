@@ -13,7 +13,7 @@ To explain this to the wider e-commerce team, use the **Virtual Tester** compari
 
 *   **The Thread (The Virtual Tester):** Each thread is a distinct "tester" who has their own computer and browser. If we run 10 threads, it’s exactly like hiring 10 people to sit in a room and test the site simultaneously.
 *   **Scenario Scope (The Private Desk):** In a physical store, you wouldn't want two customers sharing one shopping cart. We use `@ScenarioScope` to ensure every virtual tester has their own private "desk" (browser, cookies, and cache) that remains completely invisible to other testers.
-*   **The Identity Pool (The Tester's Wallet):** Every tester is handed a specific "Customer Profile" (username, password, etc.). We use a pool to ensure no two testers try to log into the same account at the same time—preventing session collisions.
+*   **The Identity Pool (The Tester's Wallet):** Every tester is handed a specific "Customer Profile" (username, password, etc.). We use a pool to ensure no two testers try to log into the same account at the same time, preventing session collisions.
 
 ---
 ## 🏗️ Technical Architecture: Start-to-End Flow
