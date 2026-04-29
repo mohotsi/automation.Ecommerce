@@ -1,4 +1,4 @@
-
+[
 
 🛒 Enterprise E-commerce Automation Framework
 Order Management System (OMS) & Storefront Integration Suite
@@ -65,3 +65,4 @@ State Persistence: Direct validation against the H2 In-Memory Database to verify
 Automated Notifications: Verification of the handleStatusNotifications logic (SMTP/Email triggers) during the Shipping/Delivery phases.
 
 QA Philosophy: "Automating the UI tests the surface; automating the lifecycle tests the business." This framework is designed to provide Pick n Pay with the confidence to deploy rapidly, knowing the core logic is protected by a resilient, high-speed quality gat
+](https://github.com/mohotsi/automation.Ecommerce/tree/AtomationProject)
