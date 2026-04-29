@@ -139,25 +139,25 @@ steps:
 
 ## 💰 Quota Savings & Performance Efficiency
 
-In a large-scale retail environment, automation can become expensive if not optimized[cite: 1]. This framework includes specialized logic to minimize costs and maximize speed[cite: 1].
+In a large-scale retail environment, automation can become expensive if not optimized. This framework includes specialized logic to minimize costs and maximize speed.
 
 ### 1. SMS & OTP Quota Protection
-Many retail platforms use SMS OTP for login[cite: 1]. Running hundreds of tests daily can quickly exhaust SMS budgets[cite: 1]. 
-* **The Solution:** We use Playwright’s `storageState` to capture the authenticated browser state (cookies and local storage) after the first successful login[cite: 1].
-* **The Result:** Subsequent virtual testers "resume" the session, bypassing the login screen and the need for a new OTP[cite: 1].
+Many retail platforms use SMS OTP for login. Running hundreds of tests daily can quickly exhaust SMS budgets. 
+* **The Solution:** We use Playwright’s `storageState` to capture the authenticated browser state (cookies and local storage) after the first successful login.
+* **The Result:** Subsequent virtual testers "resume" the session, bypassing the login screen and the need for a new OTP.
 
 ### 2. Google Maps & Regional API Savings
-Loading location pickers or Google Maps APIs on every test execution incurs significant API costs[cite: 1].
-* **The Solution:** By saving the "Region" or "Preferred Store" in the browser cookies, the virtual tester starts the journey with the region already selected[cite: 1].
-* **The Result:** This avoids repeated calls to Google APIs and reduces the number of network requests per scenario[cite: 1].
+Loading location pickers or Google Maps APIs on every test execution incurs significant API costs.
+* **The Solution:** By saving the "Region" or "Preferred Store" in the browser cookies, the virtual tester starts the journey with the region already selected.
+* **The Result:** This avoids repeated calls to Google APIs and reduces the number of network requests per scenario.
 
 ### 3. Execution Time Efficiency (Parallelism)
-Time is the most valuable quota in a Development (D1) or OMS environment[cite: 1].
-* **Persistent Login:** Saving 15–30 seconds per login across 100 tests saves nearly an hour of total execution time[cite: 1].
-* **Headless Execution:** By default, the workforce runs in "Headless" mode (no UI), which consumes significantly less CPU and RAM on Jenkins/Azure nodes, allowing for higher thread counts on the same hardware[cite: 1].
+Time is the most valuable quota in a Development (D1) or OMS environment.
+* **Persistent Login:** Saving 15–30 seconds per login across 100 tests saves nearly an hour of total execution time.
+* **Headless Execution:** By default, the workforce runs in "Headless" mode (no UI), which consumes significantly less CPU and RAM on Jenkins/Azure nodes, allowing for higher thread counts on the same hardware.
 
 ### 4. Code Implementation Snippet
-This logic is integrated into the `BrowserContext` configuration to ensure it is handled automatically[cite: 1]:
+This logic is integrated into the `BrowserContext` configuration to ensure it is handled automatically:
 ```java
 // Saving and Loading the Browser State to save quotas
 
@@ -169,9 +169,9 @@ public BrowserContext createPersistentContext(Browser browser) {
 }
 ```
 ### Why this section matters for your project:
-* **Cost Reduction:** It proves to management that your automation is "budget-aware" by not spamming OTP services[cite: 1].
-* **Speed:** It targets the **D1 (Development)** and **OMS (Order Management System)** environments specifically, where fast feedback is critical for the engineering team[cite: 1]. 
-* **Stability:** Bypassing the login flow reduces "flaky" tests caused by third-party SMS providers failing to deliver codes on time[cite: 1].
+* **Cost Reduction:** It proves to management that your automation is "budget-aware" by not spamming OTP services.
+* **Speed:** It targets the **D1 (Development)** and **OMS (Order Management System)** environments specifically, where fast feedback is critical for the engineering team. 
+* **Stability:** Bypassing the login flow reduces "flaky" tests caused by third-party SMS providers failing to deliver codes on time.
 ---
 *Maintained by Thapelo Daniel Mohotsi - QA Engineering*
 
