@@ -1,7 +1,7 @@
 # 🛒 E-Commerce Automation Framework: The Virtual Workforce Guide
 
 ## 🌟 Overview: Beyond "Simple Scripts"
-This framework is not just a collection of tests; it is a **simulated workforce**. In a modern retail environment—dealing with complex Order Management Systems (OMS) and high-traffic environments—manual testing cannot keep up with the pace of deployment. 
+This framework is not just a collection of tests; it is a **simulated workforce**. In a modern retail environment dealing with complex Order Management Systems (OMS) and high-traffic environments—manual testing cannot keep up with the pace of deployment. 
 
 This framework utilizes **Parallel Execution** and **Spring Boot Dependency Injection** to deploy an army of "Virtual Testers" who can validate the entire checkout journey in minutes instead of days.
 
