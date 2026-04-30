@@ -170,7 +170,7 @@ public BrowserContext createPersistentContext(Browser browser) {
 ```
 ### Why this section matters for your project:
 * **Cost Reduction:** It proves to management that your automation is "budget-aware" by not spamming OTP services.
-* **Speed:** It targets the **D1 (Development)** and **OMS (Order Management System)** environments specifically, where fast feedback is critical for the engineering team. 
+* **Speed:** It targets the ** (Development)** and **OMS (Order Management System)** environments specifically, where fast feedback is critical for the engineering team. 
 * **Stability:** Bypassing the login flow reduces "flaky" tests caused by third-party SMS providers failing to deliver codes on time.
 ---
 *Maintained by Thapelo Daniel Mohotsi - QA Engineering*
