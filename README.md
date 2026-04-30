@@ -77,7 +77,7 @@ Windows needs to know where your "engines" are located to run commands from the 
 1.  **Open Project:** Select the `pom.xml` file to import the project as a Maven project.
 2.  **SDK Setup:** Go to `File > Project Structure` and ensure the Project SDK is set to **Java 17**.
 3.  **Run Configurations:** To target a specific environment (like  QA), add this to the **VM Options**:
-    *   `-Dspring.profiles.active=D1`
+    *   `-Dspring.profiles.active=QA`
 
 ---
 
@@ -152,7 +152,7 @@ Loading location pickers or Google Maps APIs on every test execution incurs sign
 * **The Result:** This avoids repeated calls to Google APIs and reduces the number of network requests per scenario.
 
 ### 3. Execution Time Efficiency (Parallelism)
-Time is the most valuable quota in a Development (D1) or OMS environment.
+Time is the most valuable quota in a Development (QA) or OMS environment.
 * **Persistent Login:** Saving 15–30 seconds per login across 100 tests saves nearly an hour of total execution time.
 * **Headless Execution:** By default, the workforce runs in "Headless" mode (no UI), which consumes significantly less CPU and RAM on Jenkins/Azure nodes, allowing for higher thread counts on the same hardware.
 
