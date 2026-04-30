@@ -76,7 +76,7 @@ Windows needs to know where your "engines" are located to run commands from the 
 ### 2. Running in IntelliJ IDEA
 1.  **Open Project:** Select the `pom.xml` file to import the project as a Maven project.
 2.  **SDK Setup:** Go to `File > Project Structure` and ensure the Project SDK is set to **Java 17**.
-3.  **Run Configurations:** To target a specific environment (like D1 or QA), add this to the **VM Options**:
+3.  **Run Configurations:** To target a specific environment (like  QA), add this to the **VM Options**:
     *   `-Dspring.profiles.active=D1`
 
 ---
