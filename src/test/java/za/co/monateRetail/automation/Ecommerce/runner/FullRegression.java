@@ -17,7 +17,7 @@ import za.co.monateRetail.automation.Ecommerce.config.TestOnlyConfiguration;
  */
 @CucumberOptions(
 
-        features = "ssrc/test/java/za/co/monateRetail/automation/Ecommerce/feature",
+        features = "src/test/java/za/co/monateRetail/automation/Ecommerce/feature",
 
         // Filter: Only execute scenarios that match these tags.
         tags = "@Regression",
