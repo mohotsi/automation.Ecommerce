@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>za.co.picknpay</groupId>
-    <artifactId>automation.Ecommerce</artifactId>
+    <artifactId>Automation-Ecommerce</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>automation.Ecommerce</name>
     <description>QA Automation Framework for E-commerce using Playwright and Spring Boot</description>

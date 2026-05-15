@@ -4,7 +4,7 @@
 
     <test name="Regression">
         <classes>
-            <class name="za.co.picknpay.automation.Ecommerce.runner.FullRegression"/>
+            <class name="za.co.monateRetail.automation.Ecommerce.runner.FullRegression"/>
 
         </classes>
     </test>
